@@ -1,9 +1,7 @@
 #!/bin/bash -x
 
-set -a
-
 echo "Virtual Private Cloud Network"
-VPC_ID=$(aws ec2 create-vpc \
+export VPC_ID=$(aws ec2 create-vpc \
   --cidr-block 10.240.0.0/16 \
   --tag-specifications 'ResourceType=vpc,Tags=[{Key=Name,Value=kubernetes-the-hard-way}]' \
   --output text --query 'Vpc.VpcId')
@@ -20,7 +18,7 @@ echo "Press enter to continue..."
 read -r name
 
 echo "Create Subnet"
-SUBNET_ID=$(aws ec2 create-subnet \
+export SUBNET_ID=$(aws ec2 create-subnet \
   --vpc-id "${VPC_ID}" \
   --cidr-block 10.240.0.0/24 \
   --tag-specifications 'ResourceType=subnet,Tags=[{Key=Name,Value=kubernetes-the-hard-way},{Key=kubernetes.io/role/internal-elb,Value=1},{Key=kubernetes.io/cluster/kubernetes-the-hard-way,Value=owned}]' \
@@ -30,7 +28,7 @@ echo "Press enter to continue..."
 read -r name
 
 echo "Create Internet Gateway"
-INTERNET_GATEWAY_ID=$(aws ec2 create-internet-gateway \
+export INTERNET_GATEWAY_ID=$(aws ec2 create-internet-gateway \
   --tag-specifications 'ResourceType=internet-gateway,Tags=[{Key=Name,Value=kubernetes-the-hard-way}]' \
   --output text --query 'InternetGateway.InternetGatewayId')
 
@@ -42,7 +40,7 @@ echo "Press enter to continue..."
 read -r name
 
 echo "Create Route Table"
-ROUTE_TABLE_ID=$(aws ec2 create-route-table \
+export ROUTE_TABLE_ID=$(aws ec2 create-route-table \
   --vpc-id "${VPC_ID}" \
   --tag-specifications 'ResourceType=route-table,Tags=[{Key=Name,Value=kubernetes-the-hard-way}]' \
   --output text --query 'RouteTable.RouteTableId')
@@ -60,7 +58,7 @@ echo "Press enter to continue..."
 read -r name
 
 echo "Firewall Rules"
-SECURITY_GROUP_ID=$(aws ec2 create-security-group \
+export SECURITY_GROUP_ID=$(aws ec2 create-security-group \
   --group-name kubernetes-the-hard-way \
   --description "Kubernetes The Hard Way security group" \
   --vpc-id "${VPC_ID}" \
@@ -99,7 +97,7 @@ echo "Press enter to continue..."
 read -r name
 
 echo "Kubernetes Public IP Address"
-ALLOCATION_ID=$(aws ec2 allocate-address \
+export ALLOCATION_ID=$(aws ec2 allocate-address \
   --domain vpc \
   --tag-specifications 'ResourceType=elastic-ip,Tags=[{Key=Name,Value=kubernetes-the-hard-way}]' \
   --output text --query 'AllocationId')
@@ -178,5 +176,3 @@ aws ec2 describe-instances \
 
 echo "This part is done - Press enter to continue..."
 read -r name
-
-set +a
