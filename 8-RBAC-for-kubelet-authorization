@@ -1,0 +1,10 @@
+#!/bin/bash -x
+
+echo "RBAC for Kubelet Authorization"
+external_ip=$(aws ec2 describe-instances \
+  --filters "Name=tag:Name,Values=controller-0" "Name=instance-state-name,Values=running" \
+  --output text --query 'Reservations[].Instances[].PublicIpAddress')
+
+< RBAC-for-kubelet-authorization ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+  -i kubernetes-the-hard-way.id_rsa ubuntu@"${external_ip}"
+
