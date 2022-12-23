@@ -1,0 +1,9 @@
+#!/bin/bash -x
+
+source public-ip-addresses
+
+for instance in controller-0 controller-1 controller-2; do
+  < bootstrap-control-plane ssh -i kubernetes-the-hard-way.id_rsa \
+    -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+    ubuntu@"${PUBLIC_ADDRESS[${instance}]}" "echo ${KUBERNETES_PUBLIC_ADDRESS} > KUBERNETES_PUBLIC_ADDRESS"
+done
