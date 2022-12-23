@@ -1,0 +1,29 @@
+#!/bin/bash
+
+(return 0 2>/dev/null) && sourced=1 || { echo "Error: Script must be sourced"; exit 1; }
+
+echo "Generating Kubernetes Configuration Files for Authentication"
+
+source public-ip-addresses
+
+ENCRYPTION_KEY=$(head -c 32 /dev/urandom | base64)
+
+cat > encryption-config.yaml <<EOF
+kind: EncryptionConfig
+apiVersion: v1
+resources:
+  - resources:
+      - secrets
+    providers:
+      - aescbc:
+          keys:
+            - name: key1
+              secret: ${ENCRYPTION_KEY}
+      - identity: {}
+EOF
+
+for instance in controller-0 controller-1 controller-2; do
+  scp -i kubernetes-the-hard-way.id_rsa \
+    -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+    encryption-config.yaml ubuntu@"${PUBLIC_ADDRESS[${instance}]}":~/
+done

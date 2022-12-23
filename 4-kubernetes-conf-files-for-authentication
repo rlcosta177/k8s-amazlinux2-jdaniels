@@ -4,7 +4,7 @@
 
 echo "Generating Kubernetes Configuration Files for Authentication"
 
-source public-ip-address
+source public-ip-addresses
 
 KUBERNETES_PUBLIC_ADDRESS=${PUBLIC_ADDRESS[kubernetes]}
 
@@ -37,7 +37,7 @@ echo "The kube-proxy Kubernetes Configuration File"
   kubectl config set-cluster kubernetes-the-hard-way \
     --certificate-authority=ca.pem \
     --embed-certs=true \
-    --server=https://${KUBERNETES_PUBLIC_ADDRESS}:6443 \
+    --server=https://"${KUBERNETES_PUBLIC_ADDRESS}":6443 \
     --kubeconfig=kube-proxy.kubeconfig
 
   kubectl config set-credentials system:kube-proxy \
@@ -120,4 +120,16 @@ echo "The admin Kubernetes Configuration File"
   kubectl config use-context default --kubeconfig=admin.kubeconfig
 }
 
+for instance in worker-0 worker-1 worker-2; do
+  scp -i kubernetes-the-hard-way.id_rsa \
+    -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+    ${instance}.kubeconfig kube-proxy.kubeconfig \
+    ubuntu@"${PUBLIC_ADDRESS[${instance}]}":~/
+done
 
+for instance in controller-0 controller-1 controller-2; do
+  scp -i kubernetes-the-hard-way.id_rsa \
+    -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+    admin.kubeconfig kube-controller-manager.kubeconfig kube-scheduler.kubeconfig \
+    ubuntu@"${PUBLIC_ADDRESS[${instance}]}":~/
+done
