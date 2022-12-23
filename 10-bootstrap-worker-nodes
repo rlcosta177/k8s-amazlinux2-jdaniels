@@ -12,6 +12,8 @@ external_ip=$(aws ec2 describe-instances \
   -i kubernetes-the-hard-way.id_rsa ubuntu@"${external_ip}"
 done
 
+sleep 5
+
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
   -i kubernetes-the-hard-way.id_rsa ubuntu@"${PUBLIC_ADDRESS[controller-0]}" \
   kubectl get nodes --kubeconfig admin.kubeconfig
