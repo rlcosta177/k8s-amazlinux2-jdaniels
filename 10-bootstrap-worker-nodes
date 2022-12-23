@@ -1,0 +1,17 @@
+#!/bin/bash
+
+source public-ip-addresses
+
+for worker in 0 1 2; do
+  echo "Updating worker-${worker}"
+external_ip=$(aws ec2 describe-instances \
+  --filters "Name=tag:Name,Values=worker-${worker}" "Name=instance-state-name,Values=running" \
+  --output text --query 'Reservations[].Instances[].PublicIpAddress')
+
+< bootstrap-worker-nodes ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+  -i kubernetes-the-hard-way.id_rsa ubuntu@"${external_ip}"
+done
+
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+  -i kubernetes-the-hard-way.id_rsa ubuntu@"${PUBLIC_ADDRESS[controller-0]}" \
+  kubectl get nodes --kubeconfig admin.kubeconfig
