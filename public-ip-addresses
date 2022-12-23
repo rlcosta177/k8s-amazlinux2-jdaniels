@@ -10,4 +10,3 @@ declare -A "PUBLIC_ADDRESS=( $(aws ec2 describe-instances \
 PUBLIC_ADDRESS[kubernetes]=$(aws ec2 describe-addresses \
   --filters Name=tag:Name,Values=kubernetes-the-hard-way \
   --output text --query 'Addresses[0].PublicIp')
-
