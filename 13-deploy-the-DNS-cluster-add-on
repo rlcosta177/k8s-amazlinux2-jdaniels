@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-kubectl apply -f https://storage.googleapis.com/kubernetes-the-hard-way/coredns-1.10.0.yaml
+kubectl apply -f https://storage.googleapis.com/kubernetes-the-hard-way/coredns-1.9.4.yaml
 
 sleep 2
 
