@@ -1,7 +1,5 @@
 #!/bin/bash -x
 
-source public-ip-addresses
-
 echo "Create a deployment for a flask application"
 kubectl apply -f flask-deployment-nodeport.yaml
 
