@@ -9,10 +9,3 @@ for controller in 1 2 3; do
   < bootstrap-etcd-cluster ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
     -i kubernetes-the-hard-way.id_rsa ubuntu@"${external_ip}"
 done
-
-echo "Verification"
-sudo ETCDCTL_API=3 etcdctl member list \
-  --endpoints=https://127.0.0.1:2379 \
-  --cacert=/etc/etcd/ca.pem \
-  --cert=/etc/etcd/kubernetes.pem \
-  --key=/etc/etcd/kubernetes-key.pem
