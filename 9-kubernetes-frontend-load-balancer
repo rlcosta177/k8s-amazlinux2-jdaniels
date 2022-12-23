@@ -1,0 +1,49 @@
+#!/bin/bash -x
+
+echo "The Kubernetes Frontend Load Balancer "
+
+VPC_ID=$(aws ec2 describe-vpcs \
+  --filters Name=tag:Name,Values=kubernetes-the-hard-way \
+  --output text --query 'Vpcs[0].VpcId')
+
+SUBNET_ID=$(aws ec2 describe-subnets \
+  --filters Name=tag:Name,Values=kubernetes-the-hard-way \
+  --output text --query 'Subnets[0].SubnetId')
+
+KUBERNETES_PUBLIC_ADDRESS_ALLOCATION_ID=$(aws ec2 describe-addresses \
+  --filters Name=tag:Name,Values=kubernetes-the-hard-way \
+  --output text --query 'Addresses[0].AllocationId')
+
+LOAD_BALANCER_ARN=$(aws elbv2 create-load-balancer \
+  --name kubernetes-the-hard-way \
+  --subnet-mappings SubnetId="${SUBNET_ID}",AllocationId="${KUBERNETES_PUBLIC_ADDRESS_ALLOCATION_ID}" \
+  --scheme internet-facing \
+  --type network \
+  --tags 'Key=Name,Value=kubernetes-the-hard-way' \
+  --output text --query 'LoadBalancers[].LoadBalancerArn')
+
+TARGET_GROUP_ARN=$(aws elbv2 create-target-group \
+  --name kubernetes-the-hard-way \
+  --protocol TCP \
+  --port 6443 \
+  --vpc-id "${VPC_ID}" \
+  --target-type ip \
+  --health-check-protocol HTTP \
+  --health-check-port 80 \
+  --health-check-path /healthz \
+  --tags 'Key=Name,Value=kubernetes-the-hard-way' \
+  --output text --query 'TargetGroups[].TargetGroupArn')
+
+aws elbv2 register-targets \
+  --target-group-arn "${TARGET_GROUP_ARN}" \
+  --targets Id=10.240.0.1{0,1,2}
+
+aws elbv2 create-listener \
+  --load-balancer-arn "${LOAD_BALANCER_ARN}" \
+  --protocol TCP \
+  --port 6443 \
+  --default-actions Type=forward,TargetGroupArn="${TARGET_GROUP_ARN}" \
+  --tags 'Key=Name,Value=kubernetes-the-hard-way' \
+  --output text --query 'Listeners[].ListenerArn'
+
+
