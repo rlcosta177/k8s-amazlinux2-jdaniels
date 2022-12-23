@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/bash -x
+
+set -a
 
 echo "Virtual Private Cloud Network"
 VPC_ID=$(aws ec2 create-vpc \
@@ -176,3 +178,5 @@ aws ec2 describe-instances \
 
 echo "This part is done - Press enter to continue..."
 read -r name
+
+set +a
