@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 echo "Download and Install the etcd Binaries"
 wget -q --show-progress --https-only --timestamping \
@@ -61,3 +61,5 @@ echo "Start the etcd Server"
   sudo systemctl enable etcd
   sudo systemctl start etcd
 }
+
+logout
