@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-for controller in 1 2 3; do
+for controller in 0 1 2; do
   echo "Updating ${controller}"
   external_ip=$(aws ec2 describe-instances \
     --filters "Name=tag:Name,Values=controller-${controller}" "Name=instance-state-name,Values=running" \
