@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-load-balances
+  name: flask-load-balancer
   labels:
-    app: flask-load-balances
+    app: flask-load-balancer
 spec:
   selector:
     matchLabels:
@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        app: flask-load-balances
+        app: flask-load-balancer
         octopusexport: OctopusExport
     spec:
       containers:
