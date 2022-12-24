@@ -6,7 +6,7 @@ for controller in 0 1 2; do
     --filters "Name=tag:Name,Values=controller-${controller}" "Name=instance-state-name,Values=running" \
     --output text --query 'Reservations[].Instances[].PublicIpAddress')
 
-  < bootstrap-etcd-cluster ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+  < disable-firewall-and-apparmor ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
     -i kubernetes-the-hard-way.id_rsa ubuntu@"${external_ip}"
 done
 
@@ -16,6 +16,6 @@ for controller in 0 1 2; do
     --filters "Name=tag:Name,Values=controller-${controller}" "Name=instance-state-name,Values=running" \
     --output text --query 'Reservations[].Instances[].PublicIpAddress')
 
-  < bootstrap-control-plane ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+  < disable-firewall-and-apparmor ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
     -i kubernetes-the-hard-way.id_rsa ubuntu@"${external_ip}"
 done
