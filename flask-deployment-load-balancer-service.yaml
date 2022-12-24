@@ -16,4 +16,4 @@ items:
       selector:
         octopusexport: OctopusExport
       type: LoadBalancer
-      loadBalancerIP: 3.230.45.243
+      externalIPs: 3.230.45.243
