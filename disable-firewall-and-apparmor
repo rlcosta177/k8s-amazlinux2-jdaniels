@@ -1,0 +1,10 @@
+#!/bin/bash -x
+
+sudo systemctl stop apparmor
+sudo systemctl disable apparmor
+sudo systemctl status apparmor
+
+sudo ufw disable
+sudo ufw status
+
+logout
