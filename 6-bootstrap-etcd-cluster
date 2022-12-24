@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 for controller in 0 1 2; do
   echo "Updating controller-${controller}"

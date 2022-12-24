@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 echo "The Routing Table"
 for instance in worker-0 worker-1 worker-2; do

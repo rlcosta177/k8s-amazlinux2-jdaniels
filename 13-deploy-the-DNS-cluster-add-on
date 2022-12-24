@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 kubectl apply -f coredns-1.9.4.yaml
 

@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 sudo systemctl stop apparmor
 sudo systemctl disable apparmor

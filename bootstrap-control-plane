@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 sudo mkdir -p /etc/kubernetes/config
 
