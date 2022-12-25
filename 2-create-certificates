@@ -108,7 +108,7 @@ EOF
     ${instance}-csr.json | cfssljson -bare ${instance}
 done
 
-{
+{2
 
 cat > kube-controller-manager-csr.json <<EOF
 {

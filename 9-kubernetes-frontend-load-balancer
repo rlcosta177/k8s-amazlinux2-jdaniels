@@ -14,6 +14,8 @@ KUBERNETES_PUBLIC_ADDRESS_ALLOCATION_ID=$(aws ec2 describe-addresses \
   --filters Name=tag:Name,Values=kubernetes-the-hard-way \
   --output text --query 'Addresses[0].AllocationId')
 
+sleep 3
+
 LOAD_BALANCER_ARN=$(aws elbv2 create-load-balancer \
   --name kubernetes-the-hard-way \
   --subnet-mappings SubnetId="${SUBNET_ID}",AllocationId="${KUBERNETES_PUBLIC_ADDRESS_ALLOCATION_ID}" \
@@ -21,6 +23,8 @@ LOAD_BALANCER_ARN=$(aws elbv2 create-load-balancer \
   --type network \
   --tags 'Key=Name,Value=kubernetes-the-hard-way' \
   --output text --query 'LoadBalancers[].LoadBalancerArn')
+
+sleep 3
 
 TARGET_GROUP_ARN=$(aws elbv2 create-target-group \
   --name kubernetes-the-hard-way \
