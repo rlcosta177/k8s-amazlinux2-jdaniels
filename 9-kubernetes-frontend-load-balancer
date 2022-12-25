@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 echo "The Kubernetes Frontend Load Balancer "
 
@@ -14,8 +14,6 @@ KUBERNETES_PUBLIC_ADDRESS_ALLOCATION_ID=$(aws ec2 describe-addresses \
   --filters Name=tag:Name,Values=kubernetes-the-hard-way \
   --output text --query 'Addresses[0].AllocationId')
 
-sleep 3
-
 LOAD_BALANCER_ARN=$(aws elbv2 create-load-balancer \
   --name kubernetes-the-hard-way \
   --subnet-mappings SubnetId="${SUBNET_ID}",AllocationId="${KUBERNETES_PUBLIC_ADDRESS_ALLOCATION_ID}" \
@@ -23,8 +21,6 @@ LOAD_BALANCER_ARN=$(aws elbv2 create-load-balancer \
   --type network \
   --tags 'Key=Name,Value=kubernetes-the-hard-way' \
   --output text --query 'LoadBalancers[].LoadBalancerArn')
-
-sleep 3
 
 TARGET_GROUP_ARN=$(aws elbv2 create-target-group \
   --name kubernetes-the-hard-way \
@@ -38,9 +34,13 @@ TARGET_GROUP_ARN=$(aws elbv2 create-target-group \
   --tags 'Key=Name,Value=kubernetes-the-hard-way' \
   --output text --query 'TargetGroups[].TargetGroupArn')
 
+read -rsn1 -p"Press any key to continue";echo
+
 aws elbv2 register-targets \
   --target-group-arn "${TARGET_GROUP_ARN}" \
   --targets Id=10.240.0.1{0,1,2}
+
+read -rsn1 -p"Press any key to continue";echo
 
 aws elbv2 create-listener \
   --load-balancer-arn "${LOAD_BALANCER_ARN}" \
