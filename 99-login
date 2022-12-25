@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Inputs:
+#   host   must be 'worker' or 'controller'
+#   number the name of the host to connect to
+# Output:
+#   <None>
+
+set -o nounset
+set -o pipefail
+
+print_usage() {
+  local p
+  p="host  number"
+  echo "Usage: $(basename "$0")  ${p}" >&2
+}
+
+99-login() {
+  [[ $# -ne 2 ]] && { print_usage; return 1; }
+
+  local host number
+  local external_ip
+
+  host="$1"
+  number="$2"
+
+  source public-ip-addresses
+
+  external_ip=$(aws ec2 describe-instances \
+    --filters "Name=tag:Name,Values=$host-$number" "Name=instance-state-name,Values=running" \
+    --output text --query 'Reservations[].Instances[].PublicIpAddress')
+
+  ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+    -i kubernetes-the-hard-way.id_rsa ubuntu@${external_ip}
+
+}
+
+[[ "$0" == "${BASH_SOURCE[0]}" ]] && 99-login "$@"
+
