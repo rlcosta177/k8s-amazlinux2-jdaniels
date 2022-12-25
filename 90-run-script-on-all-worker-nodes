@@ -36,7 +36,6 @@ print_usage() {
       -i kubernetes-the-hard-way.id_rsa ubuntu@"${external_ip}"
   done
 }
-return 0
 
 [[ "$0" == "${BASH_SOURCE[0]}" ]] && 90-run-script-on-all-worker-nodes "$@"
 
