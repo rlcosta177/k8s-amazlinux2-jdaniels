@@ -166,8 +166,6 @@ cfssl gencert \
   -profile=kubernetes \
   kube-proxy-csr.json | cfssljson -bare kube-proxy
 
-}
-
 {
 
 cat > kube-scheduler-csr.json <<EOF

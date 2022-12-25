@@ -1,0 +1,24 @@
+#!/bin/bash
+
+sudo yum -y update
+
+echo "Install kubectl - be carefull with the version - should not be more than 1 away from the kubernetes version"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+kubectl version --client --output=yaml
+
+echo "Update awscli"
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+sudo yum -y install jq gettext bash-completion moreutils
+
+echo "Install yq for yaml processing"
+sudo curl -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.30.6/yq_linux_amd64
+sudo chmod +x /usr/local/bin/yq
+
+echo "Enable kubectl bash_completion"
+kubectl completion bash >>  ~/.bash_completion
+. /etc/profile.d/bash_completion.sh
+. ~/.bash_completion

@@ -2,6 +2,14 @@
 
 source public-ip-addresses
 
+echo "Store on each controller the value of KUBERNETES_PUBLIC_ADDRESS"
+for instance in controller-0 controller-1 controller-2; do
+  ssh -i kubernetes-the-hard-way.id_rsa \
+    -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+    ubuntu@"${PUBLIC_ADDRESS[${instance}]}" "echo ${KUBERNETES_PUBLIC_ADDRESS} > KUBERNETES_PUBLIC_ADDRESS"
+done
+
+echo "Bootstrap the Kubernetes Control Plane"
 for controller in 0 1 2; do
   echo "Updating ${controller}"
   external_ip=$(aws ec2 describe-instances \
