@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Inputs:
+#   host   must be 'worker' or 'controller'
+#   script the name of the script to run on the 'worker' or 'controller'
+# Output:
+#   <None>
+
+set -o nounset
+set -o pipefail
+
+print_usage() {
+  local p
+  p="host  script"
+  echo "Usage: $(basename "$0")  ${p}" >&2
+}
+
+90-run-script-on-all-worker-nodes() {
+  [[ $# -ne 2 ]] && { print_usage; return 1; }
+
+  local host script
+  local external_ip
+
+  host="$1"
+  script="$2"
+
+  source public-ip-addresses
+
+  for instance in 0 1 2; do
+    echo "Running $script on $host-${instance}"
+    external_ip=$(aws ec2 describe-instances \
+      --filters "Name=tag:Name,Values=$host-${instance}" "Name=instance-state-name,Values=running" \
+      --output text --query 'Reservations[].Instances[].PublicIpAddress')
+
+    < "$script" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+      -i kubernetes-the-hard-way.id_rsa ubuntu@"${external_ip}"
+  done
+}
+return 0
+
+[[ "$0" == "${BASH_SOURCE[0]}" ]] && 90-run-script-on-all-worker-nodes "$@"
+
