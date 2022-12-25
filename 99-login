@@ -31,7 +31,7 @@ print_usage() {
     --output text --query 'Reservations[].Instances[].PublicIpAddress')
 
   ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-    -i kubernetes-the-hard-way.id_rsa ubuntu@${external_ip}
+    -i kubernetes-the-hard-way.id_rsa ubuntu@"${external_ip}"
 
 }
 
