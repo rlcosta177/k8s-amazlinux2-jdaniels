@@ -39,10 +39,12 @@ sudo mkdir -p \
   sudo mv containerd/bin/* /bin/
 }
 
-POD_CIDR=$(curl -s -H "Metadata-Flavor: Google" \
-  http://metadata.google.internal/computeMetadata/v1/instance/attributes/pod-cidr)
+POD_CIDR=$(curl -s http://169.254.169.254/latest/user-data/ \
+  | tr "|" "\n" | grep "^pod-cidr" | cut -d"=" -f2)
 
-    cat <<EOF | sudo tee /etc/cni/net.d/10-bridge.conf
+echo "${POD_CIDR}"
+
+cat <<EOF | sudo tee /etc/cni/net.d/10-bridge.conf
 {
     "cniVersion": "0.4.0",
     "name": "bridge",

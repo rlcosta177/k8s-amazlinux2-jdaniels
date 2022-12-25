@@ -15,9 +15,9 @@ for instance in worker-0 worker-1 worker-2; do
   echo "${instance_id_ip[1]} ${pod_cidr}"
 done
 
-read -rsn1 -p"Register targetsd - press any key to continue";echo
+read -rsn1 -p"Register targets - press any key to continue";echo
 
-echo "Get routing table ID - "
+echo "Get routing table ID"
 
 ROUTE_TABLE_ID=$(aws ec2 describe-route-tables \
     --filters Name=tag:Name,Values=kubernetes-the-hard-way \
