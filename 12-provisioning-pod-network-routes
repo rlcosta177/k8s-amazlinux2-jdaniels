@@ -27,7 +27,7 @@ read -rsn1 -p"Create routes - press any key to continue";echo
 
 for instance in worker-0 worker-1 worker-2; do
   instance_id=$(aws ec2 describe-instances \
-    --filters "Name=tag:Name,Values=${instance}" \
+    --filters "Name=tag:Name,Values=${instance}" "Name=instance-state-name,Values=running" \
     --output text --query 'Reservations[].Instances[].InstanceId')
 
   pod_cidr="$(aws ec2 describe-instance-attribute \
