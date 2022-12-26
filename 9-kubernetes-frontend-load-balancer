@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 echo "The Kubernetes Frontend Load Balancer "
 
@@ -34,9 +34,13 @@ TARGET_GROUP_ARN=$(aws elbv2 create-target-group \
   --tags 'Key=Name,Value=kubernetes-the-hard-way' \
   --output text --query 'TargetGroups[].TargetGroupArn')
 
+read -rsn1 -p"Register targets - press any key to continue";echo
+
 aws elbv2 register-targets \
   --target-group-arn "${TARGET_GROUP_ARN}" \
   --targets Id=10.240.0.1{0,1,2}
+
+read -rsn1 -p"Create listner - press any key to continue";echo
 
 aws elbv2 create-listener \
   --load-balancer-arn "${LOAD_BALANCER_ARN}" \
