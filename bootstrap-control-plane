@@ -135,7 +135,7 @@ echo "Start the Controller Services"
   sudo systemctl daemon-reload
   sudo systemctl enable kube-apiserver kube-controller-manager kube-scheduler
   sudo systemctl start kube-apiserver kube-controller-manager kube-scheduler
-  sudo systemctl status -l kube-apiserver kube-controller-manager kube-scheduler
+  sudo systemctl status kube-apiserver kube-controller-manager kube-scheduler
 }
 
 echo "Enable HTTP Health Checks"

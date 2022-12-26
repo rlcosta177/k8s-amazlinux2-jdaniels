@@ -163,10 +163,6 @@ RestartSec=5
 WantedBy=multi-user.target
 EOF
 
-[Install]
-WantedBy=multi-user.target
-EOF
-
 echo "Configure the Kubernetes Proxy"
 sudo mv kube-proxy.kubeconfig /var/lib/kube-proxy/kubeconfig
 
@@ -198,7 +194,7 @@ EOF
   sudo systemctl daemon-reload
   sudo systemctl enable containerd kubelet kube-proxy
   sudo systemctl start containerd kubelet kube-proxy
-  sudo systemctl status -l containerd kubelet kube-proxy
+  sudo systemctl status containerd kubelet kube-proxy
 }
 
 logout
