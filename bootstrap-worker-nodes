@@ -131,7 +131,7 @@ sudo sed -i 's|10.88.0.0/16|'"${POD_CIDR}"'|g' /etc/cni/net.d/10-containerd-net.
   sudo systemctl daemon-reload
   sudo systemctl enable containerd kubelet kube-proxy
   sudo systemctl start containerd kubelet kube-proxy
-  sudo systemctl status -l containerd kubelet kube-proxy
+  sudo systemctl status containerd kubelet kube-proxy
 }
 
 logout
