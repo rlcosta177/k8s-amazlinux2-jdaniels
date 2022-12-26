@@ -52,7 +52,7 @@ echo "Configure the Kubelet"
 echo "Create the kubelet-config.yaml configuration file"
 cat <<EOF | sudo tee /var/lib/kubelet/kubelet-config.yaml
 kind: KubeletConfiguration
-apiVersion: kubelet.config.k8s.io/v1beta1
+apiVersion: kubelet.config.k8s.io/v1
 authentication:
   anonymous:
     enabled: false
