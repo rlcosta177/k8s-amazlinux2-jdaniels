@@ -51,6 +51,11 @@ echo "Configure the Kubelet"
   sudo mv ca.pem /var/lib/kubernetes/
 }
 
+POD_CIDR=$(curl -s http://169.254.169.254/latest/user-data/ \
+  | tr "|" "\n" | grep "^pod-cidr" | cut -d"=" -f2)
+
+echo "${POD_CIDR}"
+
 echo "Create the kubelet-config.yaml configuration file"
 cat <<EOF | sudo tee /var/lib/kubelet/kubelet-config.yaml
 kind: KubeletConfiguration
