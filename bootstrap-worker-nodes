@@ -127,6 +127,13 @@ POD_CIDR=$(curl -s http://169.254.169.254/latest/user-data/ \
 echo "${POD_CIDR}"
 sudo sed -i 's|10.88.0.0/16|'"${POD_CIDR}"'|g' /etc/cni/net.d/10-containerd-net.conflist
 
+cat <<EOF | sudo tee /etc/cni/net.d/99-loopback.conflist
+{
+   "cniVersion": "1.0.0",
+   "type": "loopback"
+}
+EOF
+
 {
   sudo systemctl daemon-reload
   sudo systemctl enable containerd kubelet kube-proxy
