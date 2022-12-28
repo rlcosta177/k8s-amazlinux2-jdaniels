@@ -134,6 +134,10 @@ POD_CIDR=$(curl -s http://169.254.169.254/latest/user-data/ \
 echo "${POD_CIDR}"
 sudo sed -i 's|10.88.0.0/16|'"${POD_CIDR}"'|g' /etc/cni/net.d/10-containerd-net.conflist
 
+third=$(echo "${POD_CIDR}" |awk -F '.' '{print $3}')
+
+sudo sed -i 's|2001:4860:4860::|2001:4860:4860:'"${third}"'::|g' /etc/cni/net.d/10-containerd-net.conflist
+
 cat <<EOF | sudo tee /etc/cni/net.d/99-loopback.conflist
 {
    "cniVersion": "1.0.0",
