@@ -52,7 +52,7 @@ SECURITY_GROUP_ID=$(aws ec2 create-security-group \
   --group-name kubernetes-the-hard-way \
   --description "Kubernetes The Hard Way security group" \
   --vpc-id "${VPC_ID}" \
-  --tag-specifications 'ResourceType=security-group,Tags=[{Key=Name,Value=kubernetes-the-hard-way}]' \
+  --tag-specifications 'ResourceType=security-group,Tags=[{Key=Name,Value=kubernetes-the-hard-way},{Key=kubernetes.io/role/internal-elb,Value=1},{Key=kubernetes.io/cluster/kubernetes-the-hard-way,Value=owned}]' \
   --output text --query 'GroupId')
 
 aws ec2 authorize-security-group-ingress \
@@ -118,10 +118,11 @@ for i in 0 1 2; do
     --key-name kubernetes-the-hard-way \
     --security-group-ids "${SECURITY_GROUP_ID}" \
     --instance-type t2.small \
+    --iam-instance-profile Name=LabRole \
     --private-ip-address 10.240.0.1${i} \
     --user-data "name=controller-${i}" \
     --subnet-id "${SUBNET_ID}" \
-    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=controller-${i}}]" \
+    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=controller-${i}},{Key=kubernetes.io/role/internal-elb,Value=1},{Key=kubernetes.io/cluster/kubernetes-the-hard-way,Value=owned}]" \
     --output text --query 'Instances[].InstanceId')
 
   aws ec2 modify-instance-attribute \
@@ -137,11 +138,12 @@ for i in 0 1 2; do
     --count 1 \
     --key-name kubernetes-the-hard-way \
     --security-group-ids "${SECURITY_GROUP_ID}" \
+    --iam-instance-profile Name=LabRole \
     --instance-type t2.small \
     --private-ip-address 10.240.0.2${i} \
     --user-data "name=worker-${i}|pod-cidr=10.200.${i}.0/24" \
     --subnet-id "${SUBNET_ID}" \
-    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=worker-${i}}]" \
+    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=worker-${i}},{Key=kubernetes.io/role/internal-elb,Value=1},{Key=kubernetes.io/cluster/kubernetes-the-hard-way,Value=owned}]" \
     --output text --query 'Instances[].InstanceId')
 
   aws ec2 modify-instance-attribute \
