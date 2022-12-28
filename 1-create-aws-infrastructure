@@ -138,7 +138,7 @@ for i in 0 1 2; do
     --count 1 \
     --key-name kubernetes-the-hard-way \
     --security-group-ids "${SECURITY_GROUP_ID}" \
-    --iam-instance-profile Name=LabRole \
+    --iam-instance-profile Name=LabInstanceProfile \
     --instance-type t2.small \
     --private-ip-address 10.240.0.2${i} \
     --user-data "name=worker-${i}|pod-cidr=10.200.${i}.0/24" \
