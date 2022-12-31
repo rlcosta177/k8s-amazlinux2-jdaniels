@@ -118,7 +118,7 @@ for i in 0 1 2; do
     --key-name kubernetes-the-hard-way \
     --security-group-ids "${SECURITY_GROUP_ID}" \
     --instance-type t2.small \
-    --iam-instance-profile Name=LabRole \
+    --iam-instance-profile Name=LabInstanceProfile \
     --private-ip-address 10.240.0.1${i} \
     --user-data "name=controller-${i}" \
     --subnet-id "${SUBNET_ID}" \
