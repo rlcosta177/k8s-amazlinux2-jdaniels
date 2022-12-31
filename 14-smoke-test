@@ -18,7 +18,7 @@ kubectl create secret generic kubernetes-the-hard-way \
 echo "Create a deployment for the nginx web server:"
 kubectl create deployment nginx --image=nginx
 
-sleep 2
+sleep 5
 kubectl get pods -l app=nginx
 
 echo "Expose the nginx deployment using a NodePort service"
@@ -32,6 +32,8 @@ echo "Allow remote access to nginx node port"
 SECURITY_GROUP_ID=$(aws ec2 describe-security-groups \
 --filters "Name=tag:Name,Values=kubernetes-the-hard-way" \
 --output text --query 'SecurityGroups[0].GroupId')
+
+sleep 3
 
 aws ec2 authorize-security-group-ingress \
   --group-id "${SECURITY_GROUP_ID}" \
