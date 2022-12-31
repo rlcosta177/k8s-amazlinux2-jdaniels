@@ -1,5 +1,7 @@
 #!/bin/bash
 
+(return 0 2>/dev/null) && sourced=1 || { echo "Error: Script must be sourced"; exit 1; }
+
 source public-ip-addresses
 
 echo "Store on each controller the value of KUBERNETES_PUBLIC_ADDRESS"
