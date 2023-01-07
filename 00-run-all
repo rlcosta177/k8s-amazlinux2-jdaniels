@@ -1,0 +1,28 @@
+#!/bin/bash -x
+
+read -rsn1 -p"Ready? - press any key to continue";echo
+source 1-create-aws-infrastructure
+read -rsn1 -p"Ready? - press any key to continue";echo
+./2-create-certificates
+read -rsn1 -p"Ready? - press any key to continue";echo
+./3-distribute-certificates
+read -rsn1 -p"Ready? - press any key to continue";echo
+source 4-kubernetes-conf-files-for-authentication
+read -rsn1 -p"Ready? - press any key to continue";echo
+source 5-data-encryption-config-and-key
+read -rsn1 -p"Ready? - press any key to continue";echo
+./6-bootstrap-etcd-cluster
+read -rsn1 -p"Ready? - press any key to continue";echo
+source 7-bootstrap-control-plane
+read -rsn1 -p"Ready? - press any key to continue";echo
+./8-RBAC-for-kubelet-authorization
+read -rsn1 -p"Ready? - press any key to continue";echo
+./9-kubernetes-frontend-load-balancer
+read -rsn1 -p"Ready? - press any key to continue";echo
+source 10-bootstrap-worker-nodes
+read -rsn1 -p"Ready? - press any key to continue";echo
+./11-configure-kubectl-for-remote-access
+read -rsn1 -p"Ready? - press any key to continue";echo
+./12-provisioning-pod-network-routes
+read -rsn1 -p"Ready? - press any key to continue";echo
+./13-deploy-the-DNS-cluster-add-on
