@@ -7,4 +7,4 @@ sudo systemctl status apparmor
 sudo ufw disable
 sudo ufw status
 
-logout
+exit

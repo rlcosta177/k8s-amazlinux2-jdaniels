@@ -9,6 +9,7 @@ items:
       name: flask-load-balancer
       namespace: default
     spec:
+      loadBalancerIP:
       ports:
         - port: 5000
           protocol: TCP
