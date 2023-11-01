@@ -34,7 +34,7 @@ TARGET_GROUP_ARN=$(aws elbv2 create-target-group \
   --tags 'Key=Name,Value=kubernetes-the-hard-way' \
   --output text --query 'TargetGroups[].TargetGroupArn')
 
-read -rsn1 -p"Register targetsd - press any key to continue";echo
+read -rsn1 -p"Register target - press any key to continue";echo
 
 aws elbv2 register-targets \
   --target-group-arn "${TARGET_GROUP_ARN}" \
