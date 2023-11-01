@@ -20,7 +20,6 @@ wget -q --show-progress --https-only --timestamping \
   https://dl.k8s.io/v1.28.3/bin/linux/amd64/kube-proxy \
   https://dl.k8s.io/v1.28.3/bin/linux/amd64/kubelet
 
-
 sudo mkdir -p \
   /etc/cni/net.d \
   /opt/cni/bin \
