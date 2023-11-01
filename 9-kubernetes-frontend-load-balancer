@@ -40,7 +40,7 @@ aws elbv2 register-targets \
   --target-group-arn "${TARGET_GROUP_ARN}" \
   --targets Id=10.240.0.1{0,1,2}
 
-read -rsn1 -p"Create listner - press any key to continue";echo
+read -rsn1 -p"Create listener - press any key to continue";echo
 
 aws elbv2 create-listener \
   --load-balancer-arn "${LOAD_BALANCER_ARN}" \
