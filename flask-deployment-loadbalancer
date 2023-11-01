@@ -9,7 +9,7 @@ sleep 2
 kubectl get pods -l app=flask-load-balancer
 
 echo "Expose the flask application deployment using a LoadBalancer service"
-kubectl expose deployment flask-load-balancer --port 5000 --type LoadBalancer --loadBalancerIP 3.213.153.221
+kubectl expose deployment flask-load-balancer --port 5001 --type LoadBalancer loadBalancerIP 3.213.153.221
 
 echo "Retrieve the node port assigned to the flask-flask-load-balancer service"
 NODE_PORT=$(kubectl get svc flask-load-balancer \
