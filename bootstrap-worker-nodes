@@ -13,12 +13,12 @@ sudo swapoff -a
 
 echo "Download and Install Worker Binaries"
 wget -q --show-progress --https-only --timestamping \
-  https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.26.0/crictl-v1.26.0-linux-amd64.tar.gz \
-  https://github.com/opencontainers/runc/releases/download/v1.1.4/runc.amd64 \
-  https://github.com/containerd/containerd/releases/download/v1.6.14/cri-containerd-cni-1.6.14-linux-amd64.tar.gz \
-  https://storage.googleapis.com/kubernetes-release/release/v1.26.0/bin/linux/amd64/kubectl \
-  https://storage.googleapis.com/kubernetes-release/release/v1.26.0/bin/linux/amd64/kube-proxy \
-  https://storage.googleapis.com/kubernetes-release/release/v1.26.0/bin/linux/amd64/kubelet
+  https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.28.0/crictl-v1.28.0-linux-amd64.tar.gz \
+  https://github.com/opencontainers/runc/releases/download/v1.1.10/runc.amd64 \
+  https://github.com/containerd/containerd/releases/download/v1.7.7/cri-containerd-cni-1.7.7-linux-amd64.tar.gz \
+  https://storage.googleapis.com/kubernetes-release/release/v1.28.0/bin/linux/amd64/kubectl \
+  https://storage.googleapis.com/kubernetes-release/release/v1.28.0/bin/linux/amd64/kube-proxy \
+  https://storage.googleapis.com/kubernetes-release/release/v1.28.0/bin/linux/amd64/kubelet
 
 
 sudo mkdir -p \
@@ -30,8 +30,8 @@ sudo mkdir -p \
   /var/run/kubernetes
 
 {
-  tar -xvf crictl-v1.26.0-linux-amd64.tar.gz
-  sudo tar -xvf cri-containerd-cni-1.6.14-linux-amd64.tar.gz -C /
+  tar -xvf crictl-v1.28.0-linux-amd64.tar.gz
+  sudo tar -xvf cri-containerd-cni-1.7.7-linux-amd64.tar.gz -C /
   sudo mv runc.amd64 runc
   chmod +x crictl kubectl kube-proxy kubelet runc
   sudo mv crictl kubectl kube-proxy kubelet runc /usr/local/bin/
