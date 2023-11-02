@@ -22,3 +22,7 @@ items:
       externalTrafficPolicy: Local
       externalIPs:
         - 3.216.237.112
+    status:
+      loadBalancer:
+        ingress:
+          - hostname: kube-load-balancer-b267ab9848964a8d.elb.us-east-1.amazonaws.com
