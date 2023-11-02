@@ -9,7 +9,7 @@ items:
       name: flask-load-balancer
       namespace: default
     spec:
-      loadBalancerIP: 3.213.153.221
+      loadBalancerIP: 3.216.237.112
       ports:
         - port: 5000
           protocol: TCP
@@ -19,4 +19,4 @@ items:
       type: LoadBalancer
       externalTrafficPolicy: Local
       externalIPs:
-        - 3.213.153.221
+        - 3.216.237.112
