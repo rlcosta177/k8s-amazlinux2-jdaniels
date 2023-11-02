@@ -11,7 +11,7 @@ items:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
     spec:
-      loadBalancerIP: 3.216.237.112
+#      loadBalancerIP: 3.216.237.112
       ports:
         - port: 5000
           protocol: TCP
@@ -20,5 +20,5 @@ items:
         octopusexport: OctopusExport
       type: LoadBalancer
       externalTrafficPolicy: Local
-      externalIPs:
-        - 3.216.237.112
+ #     externalIPs:
+ #       - 3.216.237.112
