@@ -17,5 +17,6 @@ items:
       selector:
         octopusexport: OctopusExport
       type: LoadBalancer
+      externalTrafficPolicy: Local
       externalIPs:
         - 3.213.153.221
