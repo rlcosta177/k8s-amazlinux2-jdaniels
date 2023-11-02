@@ -9,11 +9,11 @@ items:
       name: flask-load-balancer
       namespace: default
     spec:
-      loadBalancerIP:
+      loadBalancerIP: 3.213.153.221
       ports:
-        - port: 5002
+        - port: 5005
           protocol: TCP
-          targetPort: 5002
+          targetPort: 5005
       selector:
         octopusexport: OctopusExport
       type: LoadBalancer
