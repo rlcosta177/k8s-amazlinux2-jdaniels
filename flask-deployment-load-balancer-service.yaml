@@ -11,9 +11,9 @@ items:
     spec:
       loadBalancerIP: 54.160.63.39
       ports:
-        - port: 5005
+        - port: 5000
           protocol: TCP
-          targetPort: 5005
+          targetPort: 5000
       selector:
         octopusexport: OctopusExport
       type: LoadBalancer
