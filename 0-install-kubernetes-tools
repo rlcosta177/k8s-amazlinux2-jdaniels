@@ -17,7 +17,7 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
 unzip awscliv2.zip
 sudo ./aws/install
 
-sudo yum -y install jq gettext bash-completion
+sudo apt install jq gettext bash-completion -y
 
 echo "Install yq for yaml processing"
 sudo curl -o /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.35.2/yq_linux_amd64
@@ -32,11 +32,11 @@ echo "Install go"
 wget https://go.dev/dl/go1.21.3.linux-amd64.tar.gz
 sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.21.3.linux-amd64.tar.gz
 
-sudo bash -c 'echo "export PATH=$PATH:/usr/local/go/bin:/home/ec2-user/go/bin" >> /etc/profile'
+sudo bash -c 'echo "export PATH=$PATH:/usr/local/go/bin:/home/$USER/go/bin" >> /etc/profile'
 source /etc/profile
 
 go install github.com/cloudflare/cfssl/cmd/cfssl@latest
 go install github.com/cloudflare/cfssl/cmd/cfssljson@latest
 
-sudo cp /home/ec2-user/go/bin/cfssl /usr/local/bin
-sudo cp /home/ec2-user/go/bin/cfssljson /usr/local/bin
+sudo cp /home/$USER/go/bin/cfssl /usr/local/bin
+sudo cp /home/$USER/go/bin/cfssljson /usr/local/bin
